@@ -184,7 +184,9 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-
+.logo_down {
+  cursor: pointer;
+}
 .img_container_flex {
   min-width: 200px;
   height: 200px;

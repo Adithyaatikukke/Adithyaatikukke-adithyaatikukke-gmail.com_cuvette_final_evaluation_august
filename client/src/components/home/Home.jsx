@@ -31,7 +31,12 @@ const Home = () => {
                 <span>Musicart</span>
               </div>
               <span className={style.logo_down}>Home</span>
-              <span className={style.logo_down}>Invoice</span>
+              <span
+                onClick={() => handleNavigateUser("/invoice")}
+                className={style.logo_down}
+              >
+                Invoice
+              </span>
             </div>
             <div className={style.user_options}>
               <span onClick={() => handleNavigateUser("/cart")}>

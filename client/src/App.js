@@ -9,12 +9,18 @@ import CartPage from "./pages/CartPage/CartPage";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ProductDetailPage from "./pages/ProductDetailPage/ProductDetailPage";
 import CheckOut from "./components/CheckOut/CheckOut";
+import CheckOutPage from "./pages/CheckOutPage/CheckOutPage";
+import Invoices from "./components/Invoices/Invoices";
+import Invoicespage from "./pages/InvoicesPage/Invoicespage";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ProductDetailPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/invoice" element={<Invoicespage />} />
+        <Route path="/detail/:id" element={<ProductDetailPage />} />
+        <Route path="/checkout" element={<CheckOutPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
