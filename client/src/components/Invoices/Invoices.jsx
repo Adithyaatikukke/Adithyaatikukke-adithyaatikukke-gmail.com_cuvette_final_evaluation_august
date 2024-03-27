@@ -8,10 +8,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { user } from "../../Redux/User/UserSlice";
 const Invoices = () => {
   const navigate = useNavigate();
-  const { orders, name } = useSelector(user);
+  const { orders = [], name } = useSelector(user);
   const handleNavigateUser = (route) => {
     navigate(route);
   };
+  let allProducts = [...orders].reverse();
+
   return (
     <section className={style.invoices_container}>
       <div className={style.invoices_section}>
@@ -38,9 +40,9 @@ const Invoices = () => {
         <div className={style.invoices}>
           <span>My Invoices</span>
         </div>
-        {orders?.length > 0 ? (
+        {allProducts?.length > 0 ? (
           <div className={style.invoices_box}>
-            {orders?.map(({ paymentMethod, deliveryAddress, id }) => (
+            {allProducts?.map(({ paymentMethod, deliveryAddress, id }) => (
               <div className={style.invoices_sec_info}>
                 <div className={style.flex_box}>
                   <span>

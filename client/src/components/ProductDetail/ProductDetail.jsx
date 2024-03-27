@@ -50,14 +50,18 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = (id) => {
-    const checkAlreadyInCart = userInfo?.cart?.find(
-      ({ id }) => id === productId
-    );
-    if (!checkAlreadyInCart) {
-      setAddToCartloader(true);
-      dispatch(addToCartAsync({ productId: id }));
+    if (userInfo?.name) {
+      const checkAlreadyInCart = userInfo?.cart?.find(
+        ({ id }) => id === productId
+      );
+      if (!checkAlreadyInCart) {
+        setAddToCartloader(true);
+        dispatch(addToCartAsync({ productId: id }));
+      } else {
+        navigate("/cart");
+      }
     } else {
-      navigate("/cart");
+      navigate("/sign-in");
     }
   };
 
