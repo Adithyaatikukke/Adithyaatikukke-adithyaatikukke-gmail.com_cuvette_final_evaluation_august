@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import style from "./header.module.css";
 import { FiPhoneCall } from "react-icons/fi";
+import { user, userInfoToggle, userToggle } from "../../Redux/User/UserSlice";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+  const [userInfo, setUserInfo] = useState({});
+  const navigate = useNavigate();
+  const loginUser = useSelector(user);
+  const toggle = useSelector(userInfoToggle);
+  const toggle1 = useSelector(userToggle);
+
+  const handleNavigateUserToNextPage = (route) => {
+    navigate(route);
+  };
+
+  useEffect(() => {
+    if (loginUser?.name) {
+      setUserInfo(loginUser);
+    } else {
+      setUserInfo({});
+    }
+  }, [toggle, toggle1]);
+
   return (
     <section className={style.header_container}>
       <div className={style.header_section}>
@@ -18,9 +40,17 @@ const Header = () => {
           <span>Shop Now</span>
         </div>
         <div className={style.header_3}>
-          <span>Login</span>
-          <span className={style.line}></span>
-          <span>SignUp</span>
+          {!userInfo?.name && (
+            <>
+              <span onClick={() => handleNavigateUserToNextPage("/sign-in")}>
+                Login
+              </span>
+              <span className={style.line}></span>
+              <span onClick={() => handleNavigateUserToNextPage("/sign-up")}>
+                SignUp
+              </span>
+            </>
+          )}
         </div>
       </div>
     </section>

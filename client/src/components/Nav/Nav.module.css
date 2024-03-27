@@ -5,7 +5,7 @@
   .nav_container {
     width: 100%;
     position: fixed;
-    z-index: 25;
+    z-index: 40;
     bottom: 0;
     height: 4.5rem;
     background-color: white;
@@ -52,6 +52,6 @@
     justify-content: center;
     align-items: center;
     top: 5px;
-    right: 0;
+    right: -5px;
   }
 }

@@ -5,6 +5,33 @@
   align-items: center;
   margin: 2rem 0;
 }
+.empty_cart_conatiner {
+  height: 100dvh;
+  width: 98dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.empty_cart_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+}
+.empty_cart_box > span {
+  color: #b52b00;
+  font-size: 2rem;
+  font-weight: 500;
+}
+.empty_cart_box > button {
+  background-color: #2e0052;
+  color: white;
+  border: none;
+  height: 2rem;
+  width: 9rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
 .cart_section {
   width: 95%;
   display: flex;
@@ -96,6 +123,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .cart_detail_box {
   width: 80%;
   border-top: 1px solid #e1e1e1;
@@ -115,6 +143,27 @@
 }
 .cart_box > div {
   width: max-content;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 0.5rem;
+}
+button {
+  cursor: pointer;
+}
+.remove {
+  background-color: #b52b00;
+  border: none;
+  height: 1.8rem;
+  width: 90%;
+  border-radius: 0.1rem;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .cart_box > div > img {
   border: 1px solid #2e0052;
@@ -125,7 +174,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: start !important;
   row-gap: 1rem;
 }
 .cart_item_d > span {
@@ -222,15 +271,33 @@
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
+  padding-bottom: 3rem;
 }
 .item_img {
   min-width: 12rem;
   min-height: 12rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
 
+  position: relative;
+}
+.mobile_remove {
+  position: absolute;
+  bottom: -1rem;
+  background-color: #b52b00;
+  border: none;
+  height: 1.5rem;
+  width: 78%;
+  font-size: 0.8rem;
+  border-radius: 0.1rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
 .item_img > img {
   height: 10rem;
   width: 10rem;

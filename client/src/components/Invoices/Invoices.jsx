@@ -4,8 +4,11 @@ import logo from "../../images/image1.png";
 import { MdShoppingCart } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { FaFileInvoice } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { user } from "../../Redux/User/UserSlice";
 const Invoices = () => {
   const navigate = useNavigate();
+  const { orders, name } = useSelector(user);
   const handleNavigateUser = (route) => {
     navigate(route);
   };
@@ -35,72 +38,39 @@ const Invoices = () => {
         <div className={style.invoices}>
           <span>My Invoices</span>
         </div>
-        <div className={style.invoices_box}>
-          <div className={style.invoices_sec_info}>
-            <div className={style.flex_box}>
-              <span>
-                <FaFileInvoice />
-              </span>
-              <div>
-                <span className={style.user_name}>Akash Patel</span>
-                <span className={style.delivery_info}>
-                  104 kk hh nagar, Lucknow Uttar Pradesh 226025
-                </span>
+        {orders?.length > 0 ? (
+          <div className={style.invoices_box}>
+            {orders?.map(({ paymentMethod, deliveryAddress, id }) => (
+              <div className={style.invoices_sec_info}>
+                <div className={style.flex_box}>
+                  <span>
+                    <FaFileInvoice />
+                  </span>
+                  <div>
+                    <span className={style.user_name}>{name}</span>
+                    <span className={style.delivery_info}>
+                      {deliveryAddress}
+                    </span>
+                  </div>
+                </div>
+                <div className={style.view}>
+                  <button
+                    onClick={() => handleNavigateUser(`/order/detail/${id}`)}
+                  >
+                    View Invoice
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className={style.view}>
-              <button>View Invoice</button>
-            </div>
+            ))}
           </div>
-          <div className={style.invoices_sec_info}>
-            <div className={style.flex_box}>
-              <span>
-                <FaFileInvoice />
-              </span>
-              <div>
-                <span className={style.user_name}>Akash Patel</span>
-                <span className={style.delivery_info}>
-                  104 kk hh nagar, Lucknow Uttar Pradesh 226025
-                </span>
-              </div>
-            </div>
-            <div className={style.view}>
-              <button>View Invoice</button>
-            </div>
+        ) : (
+          <div className={style.empty}>
+            <span>Your Invoice is empty!</span>
+            <button onClick={() => handleNavigateUser("/")}>
+              Go back to home
+            </button>
           </div>
-          <div className={style.invoices_sec_info}>
-            <div className={style.flex_box}>
-              <span>
-                <FaFileInvoice />
-              </span>
-              <div>
-                <span className={style.user_name}>Akash Patel</span>
-                <span className={style.delivery_info}>
-                  104 kk hh nagar, Lucknow Uttar Pradesh 226025
-                </span>
-              </div>
-            </div>
-            <div className={style.view}>
-              <button>View Invoice</button>
-            </div>
-          </div>
-          <div className={style.invoices_sec_info}>
-            <div className={style.flex_box}>
-              <span>
-                <FaFileInvoice />
-              </span>
-              <div>
-                <span className={style.user_name}>Akash Patel</span>
-                <span className={style.delivery_info}>
-                  104 kk hh nagar, Lucknow Uttar Pradesh 226025
-                </span>
-              </div>
-            </div>
-            <div className={style.view}>
-              <button>View Invoice</button>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );

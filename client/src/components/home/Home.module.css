@@ -1,6 +1,8 @@
 .home_container {
   width: 100%;
-  margin: 1.5rem 0rem;
+
+  margin-top: 1.5rem;
+  margin-bottom: 7rem;
   display: flex;
   justify-content: center;
 }
@@ -64,6 +66,34 @@
   bottom: 0.9rem;
 }
 
+.cart_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 1.2rem;
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30;
+}
+
+.cart_icon_flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 1.2rem;
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+}
 .banner {
   width: 190px;
 }
@@ -72,7 +102,7 @@
   position: relative;
 }
 .input > input {
-  width: 100%;
+  width: 95%;
   border: 1px solid #c8c8c8;
   border-radius: 1.8rem;
   height: 2.5rem;
@@ -85,6 +115,12 @@
   align-items: center;
   left: 1rem;
   column-gap: 0.3rem;
+}
+.loader {
+  min-height: 80dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .layout {
   display: flex;
@@ -112,6 +148,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+
   overflow: auto;
 }
 .filter_box {
@@ -119,6 +156,9 @@
   align-items: center;
   justify-content: center;
   column-gap: 2rem;
+}
+.sort {
+  width: max-content;
 }
 .sort .select_section {
   height: 2rem;
@@ -133,13 +173,16 @@
 }
 .home_section_down {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(5, 200px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 2rem;
+
   justify-content: space-between;
 }
 .product_container {
   width: 200px;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,6 +196,7 @@
   justify-content: center;
   align-items: center;
   background: #0066ff2b;
+  position: relative;
 }
 .img_container .img {
   width: max-content;
@@ -194,6 +238,20 @@
   justify-content: center;
   align-items: center;
   background: #0066ff2b;
+  position: relative;
+}
+.cart_icon_mobile_flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 1.2rem;
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
 }
 .img_container_flex .img_flex {
   width: max-content;
@@ -220,10 +278,25 @@
   display: none;
 }
 .product_description > .title {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+}
+.product_container_flex .colour_flex {
+  font-size: 0.9rem;
+  color: #666666;
 }
 .product_description_flex > .title_flex {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+}
+.product_container_flex .description_flex {
+  font-size: 0.9rem;
+  color: #666666;
+}
+.product_container_flex .price_flex {
+  font-size: 1.3rem;
+}
+.description {
+  font-size: 0.8rem;
+  color: #666666;
 }
 .home_section_down_flex {
   width: 100%;
@@ -482,6 +555,13 @@
     align-items: center;
     background: #0066ff2b;
   }
+  .section_up_box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -0.5rem;
+  }
 
   .banner {
     width: 110px;
@@ -616,11 +696,21 @@
   .colour_flex,
   .description_flex {
     display: inline-block;
-    font-size: 0.8rem;
   }
 
   .product_description_flex > .title_flex {
-    font-size: 1.1rem;
+    font-size: 0.8rem;
+  }
+  .product_description_flex > .price_flex {
+    font-size: 1rem;
+  }
+  .product_description_flex > .colour_flex {
+    color: #666666;
+    font-size: 0.7rem;
+  }
+  .product_description_flex > .description_flex {
+    color: #666666;
+    font-size: 0.7rem;
   }
   .product_description_flex {
     width: 100%;
@@ -641,10 +731,13 @@
     border-radius: 1rem;
     cursor: pointer;
   }
-  .product_description > .title {
-    font-size: 1rem;
+  .product_description .title {
+    font-size: 0.8rem;
   }
   .product_description > span {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+  }
+  .product_description .price {
+    font-size: 0.9rem;
   }
 }

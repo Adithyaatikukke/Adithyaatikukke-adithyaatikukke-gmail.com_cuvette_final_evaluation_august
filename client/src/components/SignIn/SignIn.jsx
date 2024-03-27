@@ -1,15 +1,32 @@
 import style from "./SignIn.module.css";
 import logo from "../../images/image1.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BeatLoader } from "react-spinners";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  loginUserAsync,
+  signinError,
+  user,
+  userInfoToggle,
+  userToggle,
+} from "../../Redux/User/UserSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const SignIn = () => {
   const [emailOrMobileNumber, setEmailOrMobileNumber] = useState();
   const [password, setPassword] = useState();
+  const [loader, setLoader] = useState(false);
   const [emailOrMobileNumberError, setEmailOrMobileNumberError] =
     useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector(user);
+  const toggle = useSelector(userInfoToggle);
+  const error = useSelector(signinError);
+
   const handleNavigateUserToSignInPage = (route) => {
     navigate(route);
   };
@@ -23,10 +40,12 @@ const SignIn = () => {
     } else if (!password) {
       setPasswordError(true);
     } else {
-      setPasswordError(false);
-      setEmailOrMobileNumberError(false);
-      setEmailOrMobileNumber("");
-      setPassword("");
+      const data = {
+        value: emailOrMobileNumber,
+        password,
+      };
+      setLoader(true);
+      dispatch(loginUserAsync(data));
     }
   };
 
@@ -38,8 +57,38 @@ const SignIn = () => {
     setPasswordError(false);
     setPassword(value);
   };
+
+  useEffect(() => {
+    console.log(error);
+    if (userInfo?.name) {
+      setPasswordError(false);
+      setEmailOrMobileNumberError(false);
+      setEmailOrMobileNumber("");
+      setPassword("");
+      navigate("/");
+      setLoader(false);
+    }
+    if (error) {
+      toast.error("Password or email/mobile number not valid!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setPasswordError(false);
+      setEmailOrMobileNumberError(false);
+      setEmailOrMobileNumber("");
+      setPassword("");
+      setLoader(false);
+    }
+  }, [toggle]);
   return (
     <section className={style.signin_container}>
+      <ToastContainer />
       <div className={style.signin_top}>
         <img src={logo} alt="MusiCart" />
         <span>MusiCart</span>
@@ -72,7 +121,9 @@ const SignIn = () => {
             </div>
           </div>
           <div className={style.submit}>
-            <button onClick={() => handleSubmit()}>Continue</button>
+            <button onClick={() => handleSubmit()}>
+              {!loader ? "Continue" : <BeatLoader size={13} color="white" />}
+            </button>
             <span>
               By continuing, you agree to Musicart privacy notice and conditions
               of use

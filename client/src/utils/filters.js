@@ -2,24 +2,11 @@ export const getALLFilters = () => {
   return [
     {
       name: "Headphone type",
-      types: [
-        "Featured",
-        "In-ear headphone",
-        "On-ear headphone",
-        "Over-ear headphone",
-      ],
+      types: ["In-ear headphone", "On-ear headphone", "Over-ear headphone"],
     },
     {
       name: "Company",
-      types: [
-        "Featured",
-        "JBL",
-        "Sony",
-        "Boat",
-        "Zebronics",
-        "Marshall",
-        "Ptron",
-      ],
+      types: ["JBL", "Sony", "Boat", "Zebronics", "Marshall", "Ptron"],
     },
     {
       name: "Colour",
@@ -30,8 +17,20 @@ export const getALLFilters = () => {
       types: [
         "Featured",
         "₹0 - ₹1,000",
-        "₹1,000 - ₹10,000",
+        "₹1,000 - ₹2,000",
+        "₹2,000 - ₹3,000",
+        "₹3,000 - ₹4,000",
+        "₹4,000 - ₹10,000",
         "₹10,000 - ₹20,000",
+      ],
+    },
+    {
+      name: "Sort by : Featured",
+      types: [
+        "Price : Lowest",
+        "Price : Highest",
+        "Name : (A-Z)",
+        "Name : (Z-A)",
       ],
     },
   ];
@@ -40,7 +39,6 @@ export const getSortByFilter = () => {
   return {
     name: "Sort by : Featured",
     types: [
-      "Featured",
       "Price : Lowest",
       "Price : Highest",
       "Name : (A-Z)",

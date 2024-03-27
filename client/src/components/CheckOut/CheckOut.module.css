@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 2rem 0;
+  padding-bottom: 5rem;
 }
 .checkout_section {
   width: 95%;
@@ -134,8 +135,17 @@
 }
 .product_list_images > img {
   width: 5rem;
-  border: 1px solid #2e0052;
+  border: 2px solid #2e0052;
   border-radius: 0.3rem;
+  cursor: pointer;
+}
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.big_border {
+  border: 2px solid #b52b00 !important;
 }
 .product_list_description {
   width: 100%;

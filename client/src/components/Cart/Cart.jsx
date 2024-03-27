@@ -1,191 +1,256 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./Cart.module.css";
 import logo from "../../images/image1.png";
 import { IoBagOutline, IoCafeOutline } from "react-icons/io5";
-import pro from "../../images/image 3.png";
-import { GoArrowLeft } from "react-icons/go";
+
 import { MdShoppingCart } from "react-icons/md";
 import BackArrow from "../BackArrow/BackArrow";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { BeatLoader } from "react-spinners";
+import {
+  increaseQtyAsync,
+  removeFromCartAsync,
+  user,
+  userCartToggle,
+} from "../../Redux/User/UserSlice";
+import { useState } from "react";
 const Cart = () => {
+  const [loader, setloader] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userInfo = useSelector(user);
+  const toggle = useSelector(userCartToggle);
   const handleNavigateUser = (route) => {
     navigate(route);
   };
 
+  const handleRemoveFromCart = (productId) => {
+    setloader(productId);
+    dispatch(removeFromCartAsync({ productId }));
+  };
+  const handleIncreaseQty = (productId, quantity) => {
+    dispatch(increaseQtyAsync({ productId, quantity }));
+  };
+
+  const totalAmount = userInfo?.cart?.reduce(
+    (amount, item) => Math.round(item.price) * item.quantity + amount,
+    0
+  );
+
+  useEffect(() => {
+    if (loader !== 0) {
+      setloader(0);
+    }
+  }, [toggle]);
+
   return (
     <>
-      <section className={style.cart_container}>
-        <div className={style.cart_section}>
-          <div className={style.cart_up}>
-            <div className={style.cart_nav_details}>
-              <div className={style.cart_nav_flex}>
-                <span>
-                  <img src={logo} alt="" />
-                </span>
-                <span className={style.logo_text}>Musicart</span>
-                <span>Home/ View Cart</span>
-              </div>
-              <div className={style.view_cart_logo}>
-                <MdShoppingCart size={23} /> View Cart 9
-              </div>
-            </div>
-            <div
-              onClick={() => handleNavigateUser("/")}
-              className={style.cart_nav}
-            >
-              <span>Back to products</span>
-            </div>
-          </div>
-          <div className={style.cart_down}>
-            <div className={style.cart_logo}>
-              <span>
-                <IoBagOutline size={35} />
-                My Cart
-              </span>
-            </div>
-            <div className={style.cart_item_section}>
-              <div className={style.cart_item_up}>
-                <div className={style.cart_detail_box}>
-                  {[1, 2, 3, 4, 5].map(() => (
-                    <div className={style.cart_box}>
-                      <div>
-                        <img src={pro} alt="" />
-                      </div>
-                      <div className={style.cart_item_d}>
-                        <span className={style.cart_item_title_text}>
-                          Sony WH-CH720N
-                        </span>
-                        <span className={style.cart_item_colour}>
-                          Colour : Black
-                        </span>
-                        <span className={style.cart_item_stock}>In Stock</span>
-                      </div>
-                      <div className={style.cart_item_d}>
-                        <span>Price</span>
-                        <span>₹3500</span>
-                      </div>
-                      <div className={style.cart_item_d}>
-                        <span>Quantity</span>
-                        <select value={1}>
-                          <option value={1}>1</option>
-                          <option value={2}>2</option>
-                          <option value={3}>3</option>
-                          <option value={4}>4</option>
-                        </select>
-                      </div>
-                      <div className={style.cart_item_d}>
-                        <span>Total</span>
-                        <span>₹3500</span>
-                      </div>
-                    </div>
-                  ))}
+      {userInfo?.cart?.length > 0 ? (
+        <>
+          <section className={style.cart_container}>
+            <div className={style.cart_section}>
+              <div className={style.cart_up}>
+                <div className={style.cart_nav_details}>
+                  <div className={style.cart_nav_flex}>
+                    <span>
+                      <img src={logo} alt="" />
+                    </span>
+                    <span className={style.logo_text}>Musicart</span>
+                    <span>Home/ View Cart</span>
+                  </div>
+                  <div className={style.view_cart_logo}>
+                    <MdShoppingCart size={23} /> View Cart{" "}
+                    {userInfo?.cart?.length}
+                  </div>
                 </div>
-                <div className={style.price_detail_container}>
-                  <div className={style.price_detail_section}>
-                    <div className={style.price_detail_box_up}>
-                      <span>PRICE DETAILS</span>
-                      <div className={style.price_detail_sec}>
-                        <span>Total MRP</span>
-                        <span>₹3500</span>
-                      </div>
-                      <div className={style.price_detail_sec}>
-                        <span>Discount on MRP</span>
-                        <span>₹0</span>
-                      </div>
-                      <div className={style.price_detail_sec}>
-                        <span>Convenience Fee</span>
-                        <span>₹45</span>
+                <div
+                  onClick={() => handleNavigateUser("/")}
+                  className={style.cart_nav}
+                >
+                  <span>Back to products</span>
+                </div>
+              </div>
+              <div className={style.cart_down}>
+                <div className={style.cart_logo}>
+                  <span>
+                    <IoBagOutline size={35} />
+                    My Cart
+                  </span>
+                </div>
+                <div className={style.cart_item_section}>
+                  <div className={style.cart_item_up}>
+                    <div className={style.cart_detail_box}>
+                      {userInfo?.cart?.map(
+                        ({ title, image, colour, price, quantity, id }) => (
+                          <div key={id} className={style.cart_box}>
+                            <div>
+                              <img src={image} alt={title} />
+                              <button
+                                onClick={() => handleRemoveFromCart(id)}
+                                className={style.remove}
+                              >
+                                {loader === id ? (
+                                  <BeatLoader size={10} color="white" />
+                                ) : (
+                                  "Remove"
+                                )}
+                              </button>
+                            </div>
+                            <div className={style.cart_item_d}>
+                              <span className={style.cart_item_title_text}>
+                                {title}
+                              </span>
+                              <span className={style.cart_item_colour}>
+                                Colour : {colour}
+                              </span>
+                              <span className={style.cart_item_stock}>
+                                In Stock
+                              </span>
+                            </div>
+                            <div className={style.cart_item_d}>
+                              <span>Price</span>
+                              <span>₹{price}</span>
+                            </div>
+                            <div className={style.cart_item_d}>
+                              <span>Quantity</span>
+                              <select
+                                value={quantity}
+                                onChange={(e) =>
+                                  handleIncreaseQty(id, e.target.value)
+                                }
+                              >
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                              </select>
+                            </div>
+                            <div className={style.cart_item_d}>
+                              <span>Total</span>
+                              <span>₹ {price * quantity}</span>
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <div className={style.price_detail_container}>
+                      <div className={style.price_detail_section}>
+                        <div className={style.price_detail_box_up}>
+                          <span>PRICE DETAILS</span>
+                          <div className={style.price_detail_sec}>
+                            <span>Total MRP</span>
+                            <span>₹ {totalAmount}</span>
+                          </div>
+                          <div className={style.price_detail_sec}>
+                            <span>Discount on MRP</span>
+                            <span>₹0</span>
+                          </div>
+                          <div className={style.price_detail_sec}>
+                            <span>Convenience Fee</span>
+                            <span>₹45</span>
+                          </div>
+                        </div>
+                        <div className={style.price_detail_box_down}>
+                          <div className={style.price_detail_total}>
+                            <span>Total Amount</span>
+                            <span>₹{totalAmount + 45}</span>
+                          </div>
+                          <div className={style.order_btn}>
+                            <button
+                              onClick={() => handleNavigateUser("/checkout/0")}
+                            >
+                              PLACE ORDER
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className={style.price_detail_box_down}>
-                      <div className={style.price_detail_total}>
-                        <span>Total Amount</span>
-                        <span>₹3545</span>
-                      </div>
-                      <div className={style.order_btn}>
-                        <button>PLACE ORDER</button>
-                      </div>
+                  </div>
+                  <div className={style.cart_item_down}>
+                    <div>
+                      <span>1 Item</span>
+                      <span>₹3500</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className={style.cart_item_down}>
-                <div>
-                  <span>1 Item</span>
-                  <span>₹3500</span>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <section className={style.cart_mobile_container}>
-        <span>
-          <BackArrow route={"/"} />
-        </span>
-        <div className={style.cart_mobile_section}>
-          <div className={style.cart_mobile_main_box}>
-            <div className={style.cart_mobile_section_up}>
-              <div className={style.item_img}>
-                <img src={pro} alt="" />
-              </div>
-              <div className={style.cart_mobile_description}>
-                <div className={style.details}>
-                  <span className={style.cart_item_title}>Sony WH-CH720N</span>
-                  <span className={style.cart_item_price}>₹3500</span>
-                  <span>Clour : Black</span>
-                  <span>In Stock</span>
-                  <span>Convenience Fee ₹45</span>
-                </div>
-              </div>
-            </div>
-            <span className={style.cart_item_line}></span>
-            <div className={style.cart_mobile_section_up}>
-              <div className={style.item_img}>
-                <img src={pro} alt="" />
-              </div>
-              <div className={style.cart_mobile_description}>
-                <div className={style.details}>
-                  <span className={style.cart_item_title}>Sony WH-CH720N</span>
-                  <span className={style.cart_item_price}>₹3500</span>
-                  <span>Clour : Black</span>
-                  <span>In Stock</span>
-                  <span>Convenience Fee ₹45</span>
-                </div>
-              </div>
-            </div>
-            <span className={style.cart_item_line}></span>{" "}
-            <div className={style.cart_mobile_section_up}>
-              <div className={style.item_img}>
-                <img src={pro} alt="" />
-              </div>
-              <div className={style.cart_mobile_description}>
-                <div className={style.details}>
-                  <span className={style.cart_item_title}>Sony WH-CH720N</span>
-                  <span className={style.cart_item_price}>₹3500</span>
-                  <span>Clour : Black</span>
-                  <span>In Stock</span>
-                  <span>Convenience Fee ₹45</span>
-                </div>
-              </div>
-            </div>
-            <span className={style.cart_item_line}></span>
-            <div className={style.details_total}>
-              <span>Total</span>
-              <span>₹3545</span>
-            </div>
-          </div>
-          <div className={style.cart_mobile_section_down}>
-            <span className={style.line}></span>
-            <span className={style.total_amount}>
-              <span>Total Amount </span>
-              <span className={style.total_price}>₹3545</span>
+          </section>
+          <section className={style.cart_mobile_container}>
+            <span>
+              <BackArrow route={"/"} />
             </span>
-            <button>PLACE ORDER</button>
+            <div className={style.cart_mobile_section}>
+              <div className={style.cart_mobile_main_box}>
+                {userInfo?.cart?.map(
+                  ({ title, image, colour, price, quantity, id }) => {
+                    return (
+                      <>
+                        <div key={id} className={style.cart_mobile_section_up}>
+                          <div className={style.item_img}>
+                            <img src={image} alt={title} />
+                            <button
+                              onClick={() => handleRemoveFromCart(id)}
+                              className={style.mobile_remove}
+                            >
+                              {loader === id ? (
+                                <BeatLoader size={10} color="white" />
+                              ) : (
+                                "Remove"
+                              )}
+                            </button>
+                          </div>
+                          <div className={style.cart_mobile_description}>
+                            <div className={style.details}>
+                              <span className={style.cart_item_title}>
+                                {title}
+                              </span>
+                              <span className={style.cart_item_price}>
+                                ₹{price}
+                              </span>
+                              <span>Clour : {colour}</span>
+                              <span>In Stock</span>
+                              <span>Convenience Fee ₹45</span>
+                            </div>
+                          </div>
+                        </div>
+                        <span className={style.cart_item_line}></span>
+                      </>
+                    );
+                  }
+                )}
+
+                <div className={style.details_total}>
+                  <span>Total</span>
+                  <span>₹{totalAmount + 45}</span>
+                </div>
+              </div>
+              <div className={style.cart_mobile_section_down}>
+                <span className={style.line}></span>
+                <span className={style.total_amount}>
+                  <span>Total Amount </span>
+                  <span className={style.total_price}>
+                    ₹{totalAmount + 45}{" "}
+                  </span>
+                </span>
+                <button onClick={() => handleNavigateUser(`/checkout/0`)}>
+                  PLACE ORDER
+                </button>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <div className={style.empty_cart_conatiner}>
+          <div className={style.empty_cart_box}>
+            <span>Cart is empty!</span>
+            <button onClick={() => handleNavigateUser("/")}>
+              Go back to Products
+            </button>
           </div>
         </div>
-      </section>
+      )}
     </>
   );
 };
