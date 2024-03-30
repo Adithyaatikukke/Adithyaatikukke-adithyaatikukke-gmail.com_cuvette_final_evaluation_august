@@ -152,7 +152,7 @@ export const deleteAllCart = () => {
   try {
     const config = getToken();
     return axios.delete(
-      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/delete/all/cart`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/delete/all`,
 
       config
     );
