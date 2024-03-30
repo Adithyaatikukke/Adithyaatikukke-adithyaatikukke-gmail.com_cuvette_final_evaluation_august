@@ -5,6 +5,30 @@
   align-items: center;
   margin: 2rem 0;
 }
+.cart_section_blur {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  filter: blur(3px);
+}
+.deleteAllCart_buttons_section {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 3rem;
+}
+.deleteAllCart_buttons_section > button {
+  width: 15rem;
+  display: flex;
+  height: 2.5rem;
+  justify-content: center;
+  background-color: #b52b00;
+  border: none;
+  color: white;
+  border-radius: 0.5rem;
+}
 .empty_cart_conatiner {
   height: 100dvh;
   width: 98dvw;
@@ -153,18 +177,25 @@
 button {
   cursor: pointer;
 }
+.cart_box_sec {
+  position: relative;
+}
 .remove {
   background-color: #b52b00;
   border: none;
-  height: 1.8rem;
-  width: 90%;
-  border-radius: 0.1rem;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0 0.3rem 0 0;
   color: white;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
+
 .cart_box > div > img {
   border: 1px solid #2e0052;
   border-radius: 0.4rem;
@@ -254,6 +285,7 @@ button {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+
   font-weight: 500;
 }
 .cart_mobile_container {
@@ -271,7 +303,11 @@ button {
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
-  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+}
+.cart_mobile_section_blur {
+  filter: blur(4px);
+  margin-bottom: 3rem;
 }
 .item_img {
   min-width: 12rem;
@@ -308,6 +344,10 @@ button {
 
   display: flex;
 }
+.delete_cart_mobile_botton_section {
+  background-color: #b52b00 !important;
+  color: white !important;
+}
 .cart_mobile_main_box {
   background-color: #dbdbdb;
   width: 100%;
@@ -329,8 +369,16 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding-right: 1rem;
+  align-items: start;
+  row-gap: 0.2rem;
+}
+.details > select {
+  width: max-content;
+}
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 .cart_mobile_container .details {
   width: 100%;
@@ -442,7 +490,6 @@ button {
     justify-content: center;
     align-items: center;
     row-gap: 2rem;
-    margin-bottom: 3rem;
   }
   .cart_container {
     display: none;

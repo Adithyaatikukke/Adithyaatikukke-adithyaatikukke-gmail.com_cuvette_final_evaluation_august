@@ -3,15 +3,26 @@ import style from "./OrderDetails.module.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/image1.png";
 import { useSelector, useDispatch } from "react-redux";
-import { user } from "../../Redux/User/UserSlice";
+import {
+  setDeleteModal,
+  showDeleteModal,
+  user,
+} from "../../Redux/User/UserSlice";
 import { useParams } from "react-router-dom";
+import BackArrow from "../BackArrow/BackArrow";
+import DeleteModal from "../DeleteModal/DeleteModal";
 const OrderDetails = () => {
   const { orderId } = useParams();
   const [productDetail, setProductDetail] = useState({});
   const { orders, name } = useSelector(user);
+  const deleteModalStatus = useSelector(showDeleteModal);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleNavigateUser = (route) => {
     navigate(route);
+  };
+  const handleShowDeleteModal = () => {
+    dispatch(setDeleteModal({ value: true }));
   };
 
   useEffect(() => {
@@ -21,7 +32,22 @@ const OrderDetails = () => {
 
   return (
     <section className={style.orderdetails_container}>
-      <div className={style.orderdetails_section}>
+      {deleteModalStatus && (
+        <DeleteModal
+          route="/invoice"
+          pageName="Invoice"
+          id={productDetail?.id}
+          productName={productDetail?.title}
+        />
+      )}
+      <div
+        className={`${
+          deleteModalStatus
+            ? style.orderdetails_section_blur
+            : style.orderdetails_section
+        }`}
+      >
+        <BackArrow route="/invoice" />
         <div className={style.orderdetails_nav_section}>
           <div className={style.orderdetails_nav_up}>
             <span onClick={() => handleNavigateUser("/")}>
@@ -97,6 +123,11 @@ const OrderDetails = () => {
                     </span>
                   </div>
                 </div>
+              </div>
+              <div className={style.delete_invoice_button_section}>
+                <button onClick={() => handleShowDeleteModal()}>
+                  Delete invoice
+                </button>
               </div>
             </div>
             <div className={style.order_summary_container}>

@@ -19,6 +19,7 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BeatLoader } from "react-spinners";
+import BackArrow from "../BackArrow/BackArrow";
 const CheckOut = () => {
   const { productId } = useParams();
 
@@ -139,6 +140,7 @@ const CheckOut = () => {
     <section className={style.checkout_container}>
       <ToastContainer />
       <div className={style.checkout_section}>
+        <BackArrow route="/cart" />
         <div className={style.checkout_nav_section}>
           <div className={style.checkout_nav_up}>
             <span onClick={() => handleNavigateUser("/")}>

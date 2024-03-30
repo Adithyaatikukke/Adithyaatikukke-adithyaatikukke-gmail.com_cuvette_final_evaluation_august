@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addFeedBacks,
+  deleteUserAccount,
   getUser,
   loginUser,
   registerUser,
@@ -13,5 +14,6 @@ router
   .post("/add/feedback", varifyToken, addFeedBacks)
   .post("/register", registerUser)
   .post("/login", loginUser)
-  .get("/get", varifyToken, getUser);
+  .get("/get", varifyToken, getUser)
+  .delete("/delete/user", varifyToken, deleteUserAccount);
 export default router;

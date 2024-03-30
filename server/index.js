@@ -11,10 +11,11 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 connectDB();
-server.use("/api/user", userRouter);
-server.use("/api/products", productRouter);
-server.use("/api/cart", cartRouter);
-server.use("/api/order", orderRouter);
+
+server.use("/api/v1/user", userRouter);
+server.use("/api/v1/products", productRouter);
+server.use("/api/v1/cart", cartRouter);
+server.use("/api/v1/order", orderRouter);
 
 const PORT = process.env.PORT;
 

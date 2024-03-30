@@ -6,13 +6,42 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
     if (name && email && mobile && password) {
-      const hashPassword = await hashUserPassword(password);
-      const user = new User({ name, email, mobile, password: hashPassword });
-      user.save();
-      const token = await generateJwtToken(user._id);
-      res.status(201).json({ user, token });
+      const alreadyRegistedUser = await User.findOne({
+        $or: [{ email, mobile }],
+      });
+
+      if (!alreadyRegistedUser) {
+        const hashPassword = await hashUserPassword(password);
+        const user = new User({ name, email, mobile, password: hashPassword });
+        user.save();
+        const token = await generateJwtToken(user._id);
+
+        res.status(201).json({ user, token });
+      } else {
+        res.status(400).json({ message: "User already exists!" });
+      }
     } else {
       res.status(400).json({ message: "All inputs required!" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+    console.log(error);
+  }
+};
+
+export const deleteUserAccount = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    if (_id) {
+      const userExists = await User.findById(_id);
+      if (userExists) {
+        await User.findByIdAndDelete(_id);
+        res.status(200).json({ message: "User deleted succesfully!" });
+      } else {
+        res.status(404).json({ message: "User not found!" });
+      }
+    } else {
+      res.status(401).json({ message: "User is not authorized!" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

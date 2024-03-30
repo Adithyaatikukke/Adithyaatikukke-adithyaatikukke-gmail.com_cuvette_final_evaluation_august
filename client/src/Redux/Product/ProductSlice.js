@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
-  getAllProductsByAscFilter,
   getAllProductsByColourFilter,
   getAllProductsByCompanyFilter,
   getAllProductsByDescFilter,
   getAllProductsByHeadTypeFilter,
   getAllProductsByKeywordFilter,
   getAllProductsByPriceFilter,
+  getAllProductsBySortComapnyFilter,
   getProducts,
   getSingleProduct,
 } from "./ProductApi";
@@ -37,8 +37,8 @@ export const getSingleProductAsync = createAsyncThunk(
 
 export const getAllProductByHeadTypeFilterAsync = createAsyncThunk(
   "product/filter/headtype",
-  async (headType) => {
-    const response = await getAllProductsByHeadTypeFilter(headType);
+  async (data) => {
+    const response = await getAllProductsByHeadTypeFilter(data);
 
     return response.data;
   }
@@ -46,8 +46,8 @@ export const getAllProductByHeadTypeFilterAsync = createAsyncThunk(
 
 export const getAllProductsByCompanyFilterAsync = createAsyncThunk(
   "product/filter/company",
-  async (company) => {
-    const response = await getAllProductsByCompanyFilter(company);
+  async (data) => {
+    const response = await getAllProductsByCompanyFilter(data);
 
     return response.data;
   }
@@ -55,35 +55,28 @@ export const getAllProductsByCompanyFilterAsync = createAsyncThunk(
 
 export const getAllProductsByColourFilterAsync = createAsyncThunk(
   "product/filter/colour",
-  async (colour) => {
-    const response = await getAllProductsByColourFilter(colour);
+  async (data) => {
+    const response = await getAllProductsByColourFilter(data);
     return response.data;
   }
 );
 
 export const getAllProductsByPriceFilterAsync = createAsyncThunk(
   "product/filter/price",
-  async (price) => {
-    const response = await getAllProductsByPriceFilter(price);
+  async (data) => {
+    const response = await getAllProductsByPriceFilter(data);
     return response.data;
   }
 );
 
-export const getAllProductsByAscFilterAsync = createAsyncThunk(
-  "product/filter/asc",
-  async () => {
-    const response = await getAllProductsByAscFilter();
+export const getAllProductsBySortComapnyFilterAsync = createAsyncThunk(
+  "product/filter/sort",
+  async (data) => {
+    const response = await getAllProductsBySortComapnyFilter(data);
     return response.data;
   }
 );
 
-export const getAllProductsByDescFilterAsync = createAsyncThunk(
-  "product/filter/desc",
-  async () => {
-    const response = await getAllProductsByDescFilter();
-    return response.data;
-  }
-);
 export const getAllProductsByKeywordFilterAsync = createAsyncThunk(
   "product/filter/keyword",
   async (keyword) => {
@@ -160,6 +153,26 @@ const productSlice = createSlice({
         state.error = action.payload;
         state.productToggle = state.productToggle ? false : true;
       })
+      .addCase(getAllProductsBySortComapnyFilterAsync.pending, (state) => {
+        state.fetching = true;
+      })
+      .addCase(
+        getAllProductsBySortComapnyFilterAsync.fulfilled,
+        (state, action) => {
+          const { products } = action.payload;
+          state.fetching = false;
+          state.products = products;
+          state.productToggle = state.productToggle ? false : true;
+        }
+      )
+      .addCase(
+        getAllProductsBySortComapnyFilterAsync.rejected,
+        (state, action) => {
+          state.fetching = false;
+          state.error = action.payload;
+          state.productToggle = state.productToggle ? false : true;
+        }
+      )
       .addCase(getAllProductsByColourFilterAsync.pending, (state) => {
         state.fetching = true;
       })
@@ -188,34 +201,7 @@ const productSlice = createSlice({
         state.error = action.payload;
         state.productToggle = state.productToggle ? false : true;
       })
-      .addCase(getAllProductsByAscFilterAsync.pending, (state) => {
-        state.fetching = true;
-      })
-      .addCase(getAllProductsByAscFilterAsync.fulfilled, (state, action) => {
-        const { products } = action.payload;
-        state.fetching = false;
-        state.products = products;
-        state.productToggle = state.productToggle ? false : true;
-      })
-      .addCase(getAllProductsByAscFilterAsync.rejected, (state, action) => {
-        state.fetching = false;
-        state.error = action.payload;
-        state.productToggle = state.productToggle ? false : true;
-      })
-      .addCase(getAllProductsByDescFilterAsync.pending, (state) => {
-        state.fetching = true;
-      })
-      .addCase(getAllProductsByDescFilterAsync.fulfilled, (state, action) => {
-        const { products } = action.payload;
-        state.fetching = false;
-        state.products = products;
-        state.productToggle = state.productToggle ? false : true;
-      })
-      .addCase(getAllProductsByDescFilterAsync.rejected, (state, action) => {
-        state.fetching = false;
-        state.error = action.payload;
-        state.productToggle = state.productToggle ? false : true;
-      })
+
       .addCase(getAllProductsByKeywordFilterAsync.pending, (state) => {
         state.fetching = true;
       })

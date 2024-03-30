@@ -6,7 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import {
   registerUserAsync,
+  signupError,
   user,
+  userInfoToggle,
   userToggle,
 } from "../../Redux/User/UserSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,7 +22,7 @@ const SignUp = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState(false);
-  const [loader, setloader] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,23 +30,24 @@ const SignUp = () => {
     navigate(route);
   };
   const userInfo = useSelector(user);
-  const toggle = useSelector(userToggle);
+  const toggle = useSelector(userInfoToggle);
+  const error = useSelector(signupError);
 
   const handleSubmit = () => {
     const phonePattern = /^[6-9]\d{9}$/;
     const emailPattern = /\S+@\S+\.\S+/;
     if (!email && !password && !phoneNumber && !nameError) {
-      setloader(false);
+      setLoader(false);
       setPasswordError(true);
       setEmailError(true);
       setNameError(true);
       setPhoneNumberError(true);
     } else if (!name) {
-      setloader(false);
+      setLoader(false);
       setNameError(true);
     } else if (!email || !emailPattern.test(email)) {
       if (!email) {
-        setloader(false);
+        setLoader(false);
         setEmailError(true);
       } else {
         toast.error("Please insert a valid email!", {
@@ -59,11 +62,11 @@ const SignUp = () => {
         });
       }
     } else if (!password) {
-      setloader(false);
+      setLoader(false);
       setPasswordError(false);
     } else if (!phoneNumber || !phonePattern.test(phoneNumber)) {
       if (!phoneNumber) {
-        setloader(false);
+        setLoader(false);
         setPhoneNumberError(true);
       } else {
         toast.error("Please insert a valid mobile number!", {
@@ -84,7 +87,7 @@ const SignUp = () => {
         mobile: phoneNumber,
         password,
       };
-      setloader(true);
+      setLoader(true);
       dispatch(registerUserAsync(userData));
     }
   };
@@ -109,7 +112,29 @@ const SignUp = () => {
   useEffect(() => {
     if (userInfo?.name) {
       navigate("/");
-      setloader(false);
+      setLoader(false);
+    }
+    if (error) {
+      toast.error("User already exists please log in!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setPasswordError(false);
+      setEmailError(false);
+      setPasswordError(false);
+      setNameError(false);
+      setPhoneNumberError(false);
+      setPhoneNumber("");
+      setPassword("");
+      setEmail("");
+      setName("");
+      setLoader(false);
     }
   }, [toggle]);
   return (

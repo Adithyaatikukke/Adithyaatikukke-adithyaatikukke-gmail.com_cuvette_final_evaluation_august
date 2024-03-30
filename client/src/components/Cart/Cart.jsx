@@ -1,36 +1,55 @@
 import React, { useEffect } from "react";
 import style from "./Cart.module.css";
 import logo from "../../images/image1.png";
-import { IoBagOutline, IoCafeOutline } from "react-icons/io5";
-
+import { IoBagOutline } from "react-icons/io5";
 import { MdShoppingCart } from "react-icons/md";
 import BackArrow from "../BackArrow/BackArrow";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
 import {
+  deleteAllOrdersAysnc,
   increaseQtyAsync,
   removeFromCartAsync,
+  setDeleteModal,
+  setNewPage,
+  showDeleteModal,
   user,
   userCartToggle,
+  userToggle,
 } from "../../Redux/User/UserSlice";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
+import DeleteModal from "../DeleteModal/DeleteModal";
 const Cart = () => {
-  const [loader, setloader] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [productId, setProductId] = useState();
+  const [productName, setProductName] = useState("");
+  const [maxPriceProduct, setMaxPriceProduct] = useState({});
   const userInfo = useSelector(user);
-  const toggle = useSelector(userCartToggle);
+  const deleteModalStatus = useSelector(showDeleteModal);
+  const toggle = useSelector(userToggle);
   const handleNavigateUser = (route) => {
     navigate(route);
   };
 
-  const handleRemoveFromCart = (productId) => {
-    setloader(productId);
-    dispatch(removeFromCartAsync({ productId }));
+  const handleRemoveFromCart = (productId, productName) => {
+    setProductName(productName);
+    setProductId(productId);
+    dispatch(setDeleteModal({ value: true }));
+  };
+  const handleRemoveAllFromCart = () => {
+    setProductName("all cart");
+    setProductId("");
+    dispatch(setDeleteModal({ value: true }));
   };
   const handleIncreaseQty = (productId, quantity) => {
     dispatch(increaseQtyAsync({ productId, quantity }));
+  };
+  const updateUserNewPage = (page) => {
+    dispatch(setNewPage({ page }));
   };
 
   const totalAmount = userInfo?.cart?.reduce(
@@ -38,10 +57,24 @@ const Cart = () => {
     0
   );
 
-  useEffect(() => {
-    if (loader !== 0) {
-      setloader(0);
+  const getMaxPriceProduct = (products) => {
+    let maxPrice = 0;
+    let productName = "";
+    for (let i = 0; i < products?.length || 0; i++) {
+      if (products[i]?.price * products[i]?.quantity > maxPrice) {
+        productName = products[i].title;
+      }
+      maxPrice = Math.max(maxPrice, products[i]?.price * products[i]?.quantity);
     }
+    setMaxPriceProduct({ maxPrice, productName });
+  };
+
+  useEffect(() => {
+    updateUserNewPage("Cart");
+  }, []);
+
+  useEffect(() => {
+    getMaxPriceProduct(userInfo?.cart);
   }, [toggle]);
 
   return (
@@ -49,7 +82,19 @@ const Cart = () => {
       {userInfo?.cart?.length > 0 ? (
         <>
           <section className={style.cart_container}>
-            <div className={style.cart_section}>
+            {deleteModalStatus && (
+              <DeleteModal
+                route="/cart"
+                pageName="Cart"
+                id={productId}
+                productName={productName}
+              />
+            )}
+            <div
+              className={`${
+                deleteModalStatus ? style.cart_section_blur : style.cart_section
+              }`}
+            >
               <div className={style.cart_up}>
                 <div className={style.cart_nav_details}>
                   <div className={style.cart_nav_flex}>
@@ -84,17 +129,15 @@ const Cart = () => {
                       {userInfo?.cart?.map(
                         ({ title, image, colour, price, quantity, id }) => (
                           <div key={id} className={style.cart_box}>
-                            <div>
+                            <div className={style.cart_box_sec}>
                               <img src={image} alt={title} />
                               <button
-                                onClick={() => handleRemoveFromCart(id)}
+                                onClick={() => handleRemoveFromCart(id, title)}
                                 className={style.remove}
                               >
-                                {loader === id ? (
-                                  <BeatLoader size={10} color="white" />
-                                ) : (
-                                  "Remove"
-                                )}
+                                <span>
+                                  <FaRegTrashAlt />
+                                </span>
                               </button>
                             </div>
                             <div className={style.cart_item_d}>
@@ -142,6 +185,7 @@ const Cart = () => {
                             <span>Total MRP</span>
                             <span>₹ {totalAmount}</span>
                           </div>
+
                           <div className={style.price_detail_sec}>
                             <span>Discount on MRP</span>
                             <span>₹0</span>
@@ -169,19 +213,40 @@ const Cart = () => {
                   </div>
                   <div className={style.cart_item_down}>
                     <div>
-                      <span>1 Item</span>
-                      <span>₹3500</span>
+                      <span>Max price product : </span>
+                      <span>{maxPriceProduct.productName}</span>
+                      <span>₹{maxPriceProduct.maxPrice}</span>
                     </div>
+                  </div>
+                  <div className={style.deleteAllCart_buttons_section}>
+                    <button onClick={() => handleRemoveAllFromCart()}>
+                      Delete all cart
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </section>
           <section className={style.cart_mobile_container}>
+            {deleteModalStatus && (
+              <DeleteModal
+                route="/cart"
+                pageName="Cart"
+                id={productId}
+                productName={productName}
+              />
+            )}
             <span>
               <BackArrow route={"/"} />
             </span>
-            <div className={style.cart_mobile_section}>
+
+            <div
+              className={`${
+                deleteModalStatus
+                  ? style.cart_mobile_section_blur
+                  : style.cart_mobile_section
+              }`}
+            >
               <div className={style.cart_mobile_main_box}>
                 {userInfo?.cart?.map(
                   ({ title, image, colour, price, quantity, id }) => {
@@ -191,14 +256,10 @@ const Cart = () => {
                           <div className={style.item_img}>
                             <img src={image} alt={title} />
                             <button
-                              onClick={() => handleRemoveFromCart(id)}
+                              onClick={() => handleRemoveFromCart(id, title)}
                               className={style.mobile_remove}
                             >
-                              {loader === id ? (
-                                <BeatLoader size={10} color="white" />
-                              ) : (
-                                "Remove"
-                              )}
+                              Remove
                             </button>
                           </div>
                           <div className={style.cart_mobile_description}>
@@ -207,14 +268,27 @@ const Cart = () => {
                                 {title}
                               </span>
                               <span className={style.cart_item_price}>
-                                ₹{price}
+                                ₹{price * quantity}
                               </span>
-                              <span>Clour : {colour}</span>
-                              <span>In Stock</span>
-                              <span>Convenience Fee ₹45</span>
+
+                              <select
+                                value={quantity}
+                                onChange={(e) =>
+                                  handleIncreaseQty(id, e.target.value)
+                                }
+                              >
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                              </select>
                             </div>
+                            <span>Clour : {colour}</span>
+                            <span>In Stock</span>
+                            <span>Convenience Fee ₹45</span>
                           </div>
                         </div>
+
                         <span className={style.cart_item_line}></span>
                       </>
                     );
@@ -222,8 +296,9 @@ const Cart = () => {
                 )}
 
                 <div className={style.details_total}>
-                  <span>Total</span>
-                  <span>₹{totalAmount + 45}</span>
+                  <span>Max price : </span>
+                  <span>{maxPriceProduct.productName}</span>
+                  <span>₹{maxPriceProduct.maxPrice}</span>
                 </div>
               </div>
               <div className={style.cart_mobile_section_down}>
@@ -236,6 +311,12 @@ const Cart = () => {
                 </span>
                 <button onClick={() => handleNavigateUser(`/checkout/0`)}>
                   PLACE ORDER
+                </button>
+                <button
+                  className={style.delete_cart_mobile_botton_section}
+                  onClick={() => handleRemoveAllFromCart()}
+                >
+                  DELETE ALL ORDER
                 </button>
               </div>
             </div>

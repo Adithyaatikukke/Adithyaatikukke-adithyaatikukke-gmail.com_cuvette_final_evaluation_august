@@ -3,6 +3,10 @@ import {
   addFeedback,
   addOrder,
   addToCart,
+  deleteAllCart,
+  deleteAllOrders,
+  deleteOrder,
+  deleteUserAccount,
   getUser,
   increaseQty,
   logInUser,
@@ -23,6 +27,8 @@ const initialState = {
   addToCartSucc: false,
   addToOrderSucc: false,
   addToFeedbackSucc: false,
+  currentPage: "Home",
+  showDeleteModal: false,
 };
 
 export const registerUserAsync = createAsyncThunk(
@@ -84,6 +90,36 @@ export const addFeedbackAsync = createAsyncThunk(
     return response.data;
   }
 );
+export const deleteOrderAsync = createAsyncThunk(
+  "user/deleteorder",
+  async (data) => {
+    const response = await deleteOrder(data);
+    return response.data;
+  }
+);
+export const deleteAllOrdersAysnc = createAsyncThunk(
+  "user/deleteallorders",
+  async () => {
+    const response = await deleteAllOrders();
+    return response.data;
+  }
+);
+
+export const deleteAllCartAysnc = createAsyncThunk(
+  "user/deleteallcart",
+  async () => {
+    const response = await deleteAllCart();
+    return response.data;
+  }
+);
+
+export const deleteUserAccountAysnc = createAsyncThunk(
+  "user/deleteuseraccount",
+  async () => {
+    const response = await deleteUserAccount();
+    return response.data;
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -91,6 +127,15 @@ const userSlice = createSlice({
     logOutUser: (state) => {
       state.user = {};
       localStorage.removeItem("TOKEN");
+      state.userInfoToggle = state.userInfoToggle ? false : true;
+    },
+    setNewPage: (state, action) => {
+      const { page } = action.payload;
+      state.currentPage = page;
+    },
+    setDeleteModal: (state, action) => {
+      const { value } = action.payload;
+      state.showDeleteModal = value;
       state.userInfoToggle = state.userInfoToggle ? false : true;
     },
     clearAddToCartSucc: (state) => {
@@ -112,10 +157,11 @@ const userSlice = createSlice({
       .addCase(registerUserAsync.fulfilled, (state, action) => {
         state.signupError = false;
         const { token, user } = action.payload;
+
         state.fetching = false;
         state.user = user;
         localStorage.setItem("TOKEN", token);
-        state.userInfo = state.userInfo ? false : true;
+        state.userInfoToggle = state.userInfoToggle ? false : true;
       })
       .addCase(registerUserAsync.rejected, (state, action) => {
         state.fetching = false;
@@ -159,7 +205,6 @@ const userSlice = createSlice({
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.fetching = false;
         state.addToCartSucc = true;
-
         state.userCartToggle = state.userCartToggle ? false : true;
       })
       .addCase(addToCartAsync.rejected, (state, action) => {
@@ -227,6 +272,55 @@ const userSlice = createSlice({
       .addCase(addFeedbackAsync.rejected, (state, action) => {
         state.fetching = false;
         state.error = action.payload;
+      })
+      .addCase(deleteOrderAsync.pending, (state) => {
+        state.fetching = true;
+      })
+      .addCase(deleteOrderAsync.fulfilled, (state, action) => {
+        state.fetching = false;
+        state.addToFeedbackSucc = true;
+        state.userInfoToggle = state.userInfoToggle ? false : true;
+      })
+      .addCase(deleteOrderAsync.rejected, (state, action) => {
+        state.fetching = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteAllOrdersAysnc.pending, (state) => {
+        state.fetching = true;
+      })
+      .addCase(deleteAllOrdersAysnc.fulfilled, (state, action) => {
+        state.fetching = false;
+
+        state.userInfoToggle = state.userInfoToggle ? false : true;
+      })
+      .addCase(deleteAllOrdersAysnc.rejected, (state, action) => {
+        state.fetching = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteAllCartAysnc.pending, (state) => {
+        state.fetching = true;
+      })
+      .addCase(deleteAllCartAysnc.fulfilled, (state, action) => {
+        state.fetching = false;
+
+        state.userInfoToggle = state.userInfoToggle ? false : true;
+      })
+      .addCase(deleteAllCartAysnc.rejected, (state, action) => {
+        state.fetching = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteUserAccountAysnc.pending, (state) => {
+        state.fetching = true;
+      })
+      .addCase(deleteUserAccountAysnc.fulfilled, (state, action) => {
+        state.fetching = false;
+        state.user = {};
+        localStorage.removeItem("TOKEN");
+        state.userInfoToggle = state.userInfoToggle ? false : true;
+      })
+      .addCase(deleteUserAccountAysnc.rejected, (state, action) => {
+        state.fetching = false;
+        state.error = action.payload;
       });
   },
 });
@@ -236,10 +330,14 @@ export const {
   clearAddToCartSucc,
   clearAddToOrderSucc,
   clearAddFeedbackSucc,
+  setNewPage,
+  setDeleteModal,
 } = userSlice.actions;
 export const signupError = (state) => state.user.signupError;
 export const signinError = (state) => state.user.signinError;
 export const user = (state) => state.user.user;
+export const currentPage = (state) => state.user.currentPage;
+export const showDeleteModal = (state) => state.user.showDeleteModal;
 export const fetching = (state) => state.user.fetching;
 export const userToggle = (state) => state.user.userToggle;
 export const addToCartSucc = (state) => state.user.addToCartSucc;

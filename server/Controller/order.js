@@ -41,6 +41,34 @@ export const addToOrder = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const deleteFromOrder = async (req, res) => {
+  try {
+    const { orderId } = req.body;
+    const { _id } = req.user;
+
+    if (orderId && _id) {
+      const { orders } = await User.findById(_id).select({
+        orders: 1,
+        _id: 0,
+      });
+
+      const orderExists = await orders.find(({ id }) => id === orderId);
+      if (orderExists) {
+        await User.findByIdAndUpdate(_id, {
+          $pull: { orders: { id: orderId } },
+        });
+        res.status(200).json({ message: "Updated succesfully" });
+      } else {
+        res.status(404).json({ message: "Product not found!" });
+      }
+    } else {
+      res.status(400).json({ message: "Input required!" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
 export const addMultipleProductsToOrder = async (req, res) => {
   try {
     const { _id } = req.user;
@@ -86,6 +114,30 @@ export const addMultipleProductsToOrder = async (req, res) => {
       }
     } else {
       res.status(400).json({ message: "All inputs required!" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteAllOrders = async (req, res) => {
+  try {
+    const { _id } = req.user;
+
+    if (_id) {
+      const userAllOrders = await User.findById(_id).select({
+        orders: 1,
+        _id: 0,
+      });
+      if (userAllOrders?.orders.length > 0) {
+        await User.findByIdAndUpdate(_id, { $set: { orders: [] } });
+        res.status(200).json({ message: "Orders deleted succesfully!" });
+      } else {
+        res.status(404).json({ message: "Orders not found!" });
+      }
+    } else {
+      res.status(401).json({ message: "User is not authorized!" });
     }
   } catch (error) {
     console.log(error.message);

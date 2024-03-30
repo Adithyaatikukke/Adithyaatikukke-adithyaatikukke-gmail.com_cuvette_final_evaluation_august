@@ -3,7 +3,7 @@ import { getToken } from "../../utils/getToken";
 
 export const registerUser = (data) => {
   try {
-    return axios.post("http://localhost:5000/api/user/register", data);
+    return axios.post("http://localhost:5000/api/v1/user/register", data);
   } catch (error) {
     return Error(error.message);
   }
@@ -11,7 +11,7 @@ export const registerUser = (data) => {
 
 export const logInUser = (data) => {
   try {
-    return axios.post("http://localhost:5000/api/user/login", data);
+    return axios.post("http://localhost:5000/api/v1/user/login", data);
   } catch (error) {
     return Error(error.message);
   }
@@ -20,7 +20,7 @@ export const logInUser = (data) => {
 export const getUser = () => {
   try {
     const config = getToken();
-    return axios.get("http://localhost:5000/api/user/get", config);
+    return axios.get("http://localhost:5000/api/v1/user/get", config);
   } catch (error) {
     return Error(error.message);
   }
@@ -30,7 +30,7 @@ export const addToCart = (productId) => {
     const config = getToken();
 
     return axios.post(
-      `http://localhost:5000/api/cart/add/product`,
+      `http://localhost:5000/api/v1/cart/add/product`,
       productId,
       config
     );
@@ -43,7 +43,7 @@ export const removeFromCart = (productId) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/cart/remove/product`,
+      `http://localhost:5000/api/v1/cart/remove/product`,
       productId,
       config
     );
@@ -55,7 +55,7 @@ export const increaseQty = (data) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/cart/increase/qty`,
+      `http://localhost:5000/api/v1/cart/increase/qty`,
       data,
       config
     );
@@ -70,13 +70,13 @@ export const addOrder = (data) => {
     const config = getToken();
     if (productId) {
       return axios.post(
-        `http://localhost:5000/api/order/add/single/order`,
+        `http://localhost:5000/api/v1/order/add/single/order`,
         data,
         config
       );
     } else {
       return axios.post(
-        `http://localhost:5000/api/order/add/multiple/orders`,
+        `http://localhost:5000/api/v1/order/add/multiple/orders`,
         data,
         config
       );
@@ -89,7 +89,7 @@ export const addOrder = (data) => {
 export const removeAllFromCart = () => {
   try {
     const config = getToken();
-    return axios.delete(`http://localhost:5000/api/cart/remove/all`, config);
+    return axios.delete(`http://localhost:5000/api/v1/cart/remove/all`, config);
   } catch (error) {
     return Error(error.message);
   }
@@ -99,9 +99,61 @@ export const addFeedback = (feedback) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/user/add/feedback`,
+      `http://localhost:5000/api/v1/user/add/feedback`,
 
       feedback,
+      config
+    );
+  } catch (error) {
+    return Error(error.message);
+  }
+};
+
+export const deleteOrder = (data) => {
+  try {
+    const config = getToken();
+    return axios.post(
+      `http://localhost:5000/api/v1/order/delete/single/order`,
+
+      data,
+      config
+    );
+  } catch (error) {
+    return Error(error.message);
+  }
+};
+
+export const deleteAllOrders = () => {
+  try {
+    const config = getToken();
+    return axios.delete(
+      `http://localhost:5000/api/v1/order/delete/all/orders`,
+
+      config
+    );
+  } catch (error) {
+    return Error(error.message);
+  }
+};
+
+export const deleteAllCart = () => {
+  try {
+    const config = getToken();
+    return axios.delete(
+      `http://localhost:5000/api/v1/cart/delete/all/cart`,
+
+      config
+    );
+  } catch (error) {
+    return Error(error.message);
+  }
+};
+export const deleteUserAccount = () => {
+  try {
+    const config = getToken();
+    return axios.delete(
+      `http://localhost:5000/api/v1/user/delete/user`,
+
       config
     );
   } catch (error) {

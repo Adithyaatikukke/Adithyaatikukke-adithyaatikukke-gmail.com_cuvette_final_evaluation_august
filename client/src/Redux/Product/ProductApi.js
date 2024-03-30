@@ -1,7 +1,7 @@
 import axios from "axios";
 export const getProducts = () => {
   try {
-    return axios.get("http://localhost:5000/api/products/get");
+    return axios.get("http://localhost:5000/api/v1/products/get");
   } catch (error) {
     return Error(error.message);
   }
@@ -9,59 +9,60 @@ export const getProducts = () => {
 export const getSingleProduct = (id) => {
   try {
     return axios.get(
-      `http://localhost:5000/api/products/get/single/product/${id}`
+      `http://localhost:5000/api/v1/products/get/single/product/${id}`
     );
   } catch (error) {
     return Error(error.message);
   }
 };
-export const getAllProductsByHeadTypeFilter = (headType) => {
+export const getAllProductsByHeadTypeFilter = (data) => {
   try {
-    return axios.get(
-      `http://localhost:5000/api/products/filter/useType?useType=${headType}`
+    return axios.post(
+      `http://localhost:5000/api/v1/products/filter/useType`,
+      data
     );
   } catch (error) {
     return Error(error.message);
   }
 };
-export const getAllProductsByCompanyFilter = (company) => {
+export const getAllProductsByCompanyFilter = (data) => {
   try {
-    return axios.get(
-      `http://localhost:5000/api/products/filter/company?company=${company}`
+    return axios.post(
+      `http://localhost:5000/api/v1/products/filter/company`,
+      data
     );
   } catch (error) {
     return Error(error.message);
   }
 };
 
-export const getAllProductsByColourFilter = (colour) => {
+export const getAllProductsByColourFilter = (data) => {
   try {
-    return axios.get(
-      `http://localhost:5000/api/products/filter/colour?colour=${colour}`
+    return axios.post(
+      `http://localhost:5000/api/v1/products/filter/colour`,
+      data
     );
   } catch (error) {
     return Error(error.message);
   }
 };
-export const getAllProductsByPriceFilter = (price) => {
+export const getAllProductsByPriceFilter = (data) => {
   try {
-    return axios.post(`http://localhost:5000/api/products/filter/price`, price);
+    return axios.post(
+      `http://localhost:5000/api/v1/products/filter/price`,
+      data
+    );
   } catch (error) {
     return Error(error.message);
   }
 };
 
-export const getAllProductsByAscFilter = () => {
+export const getAllProductsBySortComapnyFilter = (data) => {
   try {
-    return axios.get(`http://localhost:5000/api/products/filter/sort/asc`);
-  } catch (error) {
-    return Error(error.message);
-  }
-};
-
-export const getAllProductsByDescFilter = () => {
-  try {
-    return axios.get(`http://localhost:5000/api/products/filter/sort/desc`);
+    return axios.post(
+      `http://localhost:5000/api/v1/products/filter/sort/company`,
+      data
+    );
   } catch (error) {
     return Error(error.message);
   }
@@ -70,7 +71,7 @@ export const getAllProductsByDescFilter = () => {
 export const getAllProductsByKeywordFilter = (keyword) => {
   try {
     return axios.get(
-      `http://localhost:5000/api/products/filter/keyword?keyword=${keyword}`
+      `http://localhost:5000/api/v1/products/filter/keyword?keyword=${keyword}`
     );
   } catch (error) {
     return Error(error.message);

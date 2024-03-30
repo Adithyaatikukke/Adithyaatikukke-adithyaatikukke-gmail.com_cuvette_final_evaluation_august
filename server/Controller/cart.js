@@ -51,7 +51,7 @@ export const increaseQuantity = async (req, res) => {
 
     const { quantity, productId } = req.body;
 
-    if (_id || productId || quantity) {
+    if (_id && productId && quantity) {
       const user = await User.findById(_id);
       const product = await Product.findById(productId);
 
@@ -89,7 +89,7 @@ export const removeFromCart = async (req, res) => {
     const { _id } = req.user;
     const { productId } = req.body;
 
-    if (_id || productId) {
+    if (_id && productId) {
       const user = await User.findById(_id);
       const product = await Product.findById(productId);
 
@@ -122,7 +122,6 @@ export const removeFromCart = async (req, res) => {
 export const removeAllFromCart = async (req, res) => {
   try {
     const { _id } = req.user;
-    console.log(_id);
 
     if (_id) {
       const user = await User.findById(_id);

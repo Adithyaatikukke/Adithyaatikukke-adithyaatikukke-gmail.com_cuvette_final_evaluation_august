@@ -6,12 +6,21 @@
   padding: 2rem 0;
   padding-bottom: 5rem;
 }
+
 .orderdetails_section {
   width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   row-gap: 2.5rem;
+}
+.orderdetails_section_blur {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 2.5rem;
+  filter: blur(4px);
 }
 .orderdetails_nav_section {
   width: 100%;
@@ -264,6 +273,17 @@ button {
   font-weight: 500;
   color: #b52b00;
 }
+.delete_invoice_button_section {
+  width: 100%;
+}
+.delete_invoice_button_section > button {
+  width: 10rem;
+  border: none;
+  height: 2.5rem;
+  color: white;
+  background-color: #b52b00;
+  border-radius: 0.5rem;
+}
 @media (max-width: 1000px) {
   .delivery_info_container {
     max-width: 70%;
@@ -366,5 +386,15 @@ button {
     row-gap: 1rem;
     justify-content: center;
     align-items: center;
+  }
+}
+@media (max-width: 500px) {
+  .delete_invoice_button_section > button {
+    width: 100%;
+    border: none;
+    height: 2.5rem;
+    color: white;
+    background-color: #b52b00;
+    border-radius: 0.5rem;
   }
 }

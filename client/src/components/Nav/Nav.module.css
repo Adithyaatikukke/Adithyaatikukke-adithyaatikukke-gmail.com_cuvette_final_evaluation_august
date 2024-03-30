@@ -19,12 +19,15 @@
     justify-content: space-between;
     align-items: center;
   }
+
   .nav_section .nav_item {
     display: flex;
+
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
+    min-width: 3.5rem;
   }
 
   .nav_section .nav_item .nav_icon {
@@ -34,10 +37,16 @@
     margin-bottom: -5px;
     padding-top: 4px;
   }
-  .nav_section .nav_item .line {
+  .nav_section .nav_item .line_on {
     height: 2px;
     width: 100%;
     background-color: #2e0052;
+    border-radius: 1rem;
+  }
+  .nav_section .nav_item .line_off {
+    height: 2px;
+    width: 100%;
+    background-color: white;
     border-radius: 1rem;
   }
   .cart {
@@ -52,6 +61,6 @@
     justify-content: center;
     align-items: center;
     top: 5px;
-    right: -5px;
+    right: 6px;
   }
 }

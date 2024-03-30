@@ -24,6 +24,7 @@ import { getAllProductsAsync } from "./Redux/Product/ProductSlice";
 import OrderSucces from "./components/OrderSuccess/OrderSucces";
 import OrderSuccessPage from "./pages/OrderSuccessPage/OrderSuccessPage";
 import OrderDetails from "./components/OrderDetails/OrderDetails";
+import OrderDetailPage from "./pages/OrderDetailPage/OrderDetailpage";
 
 const App = () => {
   const toggle = useSelector(userCartToggle);
@@ -47,7 +48,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/order/success" element={<OrderSuccessPage />} />
         <Route path="/invoice" element={<Invoicespage />} />
-        <Route path="/order/detail/:orderId" element={<OrderDetails />} />
+        <Route path="/order/detail/:orderId" element={<OrderDetailPage />} />
         <Route
           path="product/detail/:productId"
           element={<ProductDetailPage />}

@@ -5,8 +5,8 @@ import {
   getAllProductsByCompanyFilter,
   getAllProductsByKeywordFilter,
   getAllProductsByPriceFilter,
-  getAllProductsBySortAscFilter,
-  getAllProductsBySortDescFilter,
+  getAllProductsByPriceSortFilter,
+  getAllProductsBySortCompanyFilter,
   getAllProductsByUseTypeFilter,
   getSignleProduct,
 } from "../Controller/Product.js";
@@ -17,10 +17,10 @@ router
   .get("/get", getAllProducts)
   .get("/get/single/product/:productId", getSignleProduct)
   .get("/filter/keyword", getAllProductsByKeywordFilter)
-  .get("/filter/colour", getAllProductsByColourFilter)
-  .get("/filter/useType", getAllProductsByUseTypeFilter)
-  .get("/filter/company", getAllProductsByCompanyFilter)
-  .get("/filter/sort/asc", getAllProductsBySortAscFilter)
-  .get("/filter/sort/desc", getAllProductsBySortDescFilter)
-  .post("/filter/price", getAllProductsByPriceFilter);
+  .post("/filter/colour", getAllProductsByColourFilter)
+  .post("/filter/useType", getAllProductsByUseTypeFilter)
+  .post("/filter/company", getAllProductsByCompanyFilter)
+  .post("/filter/sort/company", getAllProductsBySortCompanyFilter)
+  .post("/filter/price", getAllProductsByPriceFilter)
+  .post("/filter/sort/price", getAllProductsByPriceSortFilter);
 export default router;

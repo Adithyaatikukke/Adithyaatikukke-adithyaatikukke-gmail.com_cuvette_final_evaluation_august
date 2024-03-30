@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./ProductDetail.module.css";
 import logo from "../../images/image1.png";
-import img from "../../images/image 3.png";
+import BackArrow from "../BackArrow/BackArrow";
 import { IoIosStar } from "react-icons/io";
 import {
   MdOutlineStarOutline,
@@ -22,13 +22,14 @@ import {
   addToCartAsync,
   user,
   userCartToggle,
-  userToggle,
 } from "../../Redux/User/UserSlice";
+
 const ProductDetail = () => {
   const { productId } = useParams();
   const [loader, setloader] = useState(false);
   const [addToCartLoader, setAddToCartloader] = useState(false);
   const [product, setProduct] = useState({});
+  const [mainImage, setMainImage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const clickedProduct = useSelector(singleProduct);
@@ -65,10 +66,15 @@ const ProductDetail = () => {
     }
   };
 
+  const handleSetImage = (img) => {
+    setMainImage(img);
+  };
+
   useEffect(() => {
     getSingleProduct();
     if (clickedProduct?._id) {
       setProduct(clickedProduct);
+      setMainImage(clickedProduct?.image);
       setloader(false);
     }
     if (addToCartLoader) {
@@ -89,8 +95,11 @@ const ProductDetail = () => {
   return (
     <section className={style.product_detail_container}>
       <ToastContainer />
+
       {!loader ? (
         <div className={style.product_detail_section}>
+          <BackArrow route="/" />
+
           <div className={style.product_detail_up}>
             <div className={style.product_detail_nav_details}>
               <div className={style.product_detail_nav_flex}>
@@ -119,12 +128,16 @@ const ProductDetail = () => {
             <div className={style.product_des_section}>
               <div className={style.main_img}>
                 <div className={style.main_img_sec}>
-                  <img src={product?.image} alt={product?.title} />
+                  <img src={mainImage} alt={product?.title} />
                 </div>
                 <div className={style.subimages}>
-                  <img src={product?.image} alt={product?.title} />
-                  <img src={product?.image} alt={product?.title} />
-                  <img src={product?.image} alt={product?.title} />
+                  {product?.subImages?.map((img) => (
+                    <img
+                      onClick={() => handleSetImage(img)}
+                      src={img}
+                      alt={product?.title}
+                    />
+                  ))}
                 </div>
               </div>
               <div>
