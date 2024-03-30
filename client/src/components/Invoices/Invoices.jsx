@@ -16,7 +16,7 @@ import DeleteModal from "../DeleteModal/DeleteModal";
 const Invoices = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { orders = [], name } = useSelector(user);
+  const { orders = [], name, cart = [] } = useSelector(user);
   const deleteModalStatus = useSelector(showDeleteModal);
   const handleNavigateUser = (route) => {
     navigate(route);
@@ -61,7 +61,7 @@ const Invoices = () => {
               <span>Home/ Invoices</span>
             </div>
             <div className={style.view_invoices_logo}>
-              <MdShoppingCart size={23} /> View Cart 9
+              <MdShoppingCart size={23} /> View Cart {cart.length}
             </div>
           </div>
           <div

@@ -27,7 +27,6 @@ import OrderDetails from "./components/OrderDetails/OrderDetails";
 import OrderDetailPage from "./pages/OrderDetailPage/OrderDetailpage";
 
 const App = () => {
-  cons;
   const toggle = useSelector(userCartToggle);
   const toggle1 = useSelector(userInfoToggle);
 
