@@ -30,8 +30,8 @@
   border-radius: 0.5rem;
 }
 .empty_cart_conatiner {
-  height: 100dvh;
-  width: 98dvw;
+  height: 100vh;
+  width: 98vw;
   display: flex;
   justify-content: center;
   align-items: center;
