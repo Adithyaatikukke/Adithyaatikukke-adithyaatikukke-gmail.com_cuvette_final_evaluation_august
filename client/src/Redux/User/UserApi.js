@@ -3,7 +3,10 @@ import { getToken } from "../../utils/getToken";
 
 export const registerUser = (data) => {
   try {
-    return axios.post("http://localhost:5000/api/v1/user/register", data);
+    return axios.post(
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/user/register`,
+      data
+    );
   } catch (error) {
     return Error(error.message);
   }
@@ -11,7 +14,10 @@ export const registerUser = (data) => {
 
 export const logInUser = (data) => {
   try {
-    return axios.post("http://localhost:5000/api/v1/user/login", data);
+    return axios.post(
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/user/login`,
+      data
+    );
   } catch (error) {
     return Error(error.message);
   }
@@ -20,7 +26,10 @@ export const logInUser = (data) => {
 export const getUser = () => {
   try {
     const config = getToken();
-    return axios.get("http://localhost:5000/api/v1/user/get", config);
+    return axios.get(
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/user/get`,
+      config
+    );
   } catch (error) {
     return Error(error.message);
   }
@@ -30,7 +39,7 @@ export const addToCart = (productId) => {
     const config = getToken();
 
     return axios.post(
-      `http://localhost:5000/api/v1/cart/add/product`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/add/product`,
       productId,
       config
     );
@@ -43,7 +52,7 @@ export const removeFromCart = (productId) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/v1/cart/remove/product`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/remove/product`,
       productId,
       config
     );
@@ -55,7 +64,7 @@ export const increaseQty = (data) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/v1/cart/increase/qty`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/increase/qty`,
       data,
       config
     );
@@ -70,13 +79,13 @@ export const addOrder = (data) => {
     const config = getToken();
     if (productId) {
       return axios.post(
-        `http://localhost:5000/api/v1/order/add/single/order`,
+        `${process.env.REACT_APP_BACKEND_API}/api/v1/order/add/single/order`,
         data,
         config
       );
     } else {
       return axios.post(
-        `http://localhost:5000/api/v1/order/add/multiple/orders`,
+        `${process.env.REACT_APP_BACKEND_API}/api/v1/order/add/multiple/orders`,
         data,
         config
       );
@@ -89,7 +98,10 @@ export const addOrder = (data) => {
 export const removeAllFromCart = () => {
   try {
     const config = getToken();
-    return axios.delete(`http://localhost:5000/api/v1/cart/remove/all`, config);
+    return axios.delete(
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/delete/all`,
+      config
+    );
   } catch (error) {
     return Error(error.message);
   }
@@ -99,7 +111,7 @@ export const addFeedback = (feedback) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/v1/user/add/feedback`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/user/add/feedback`,
 
       feedback,
       config
@@ -113,7 +125,7 @@ export const deleteOrder = (data) => {
   try {
     const config = getToken();
     return axios.post(
-      `http://localhost:5000/api/v1/order/delete/single/order`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/order/delete/single/order`,
 
       data,
       config
@@ -127,7 +139,7 @@ export const deleteAllOrders = () => {
   try {
     const config = getToken();
     return axios.delete(
-      `http://localhost:5000/api/v1/order/delete/all/orders`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/order/delete/all/orders`,
 
       config
     );
@@ -140,7 +152,7 @@ export const deleteAllCart = () => {
   try {
     const config = getToken();
     return axios.delete(
-      `http://localhost:5000/api/v1/cart/delete/all/cart`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/cart/delete/all/cart`,
 
       config
     );
@@ -152,7 +164,7 @@ export const deleteUserAccount = () => {
   try {
     const config = getToken();
     return axios.delete(
-      `http://localhost:5000/api/v1/user/delete/user`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/user/delete/user`,
 
       config
     );

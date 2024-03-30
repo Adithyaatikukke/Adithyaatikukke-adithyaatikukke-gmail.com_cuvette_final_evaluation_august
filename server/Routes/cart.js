@@ -12,7 +12,7 @@ const router = express.Router();
 router
   .post("/add/product", varifyToken, addToCart)
   .post("/increase/qty", varifyToken, increaseQuantity)
-  .delete("/delete/all/cart", varifyToken, removeAllFromCart)
+  .delete("/delete/all", varifyToken, removeAllFromCart)
   .post("/remove/product", varifyToken, removeFromCart);
 
 export default router;

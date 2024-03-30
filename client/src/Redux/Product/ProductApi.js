@@ -1,7 +1,9 @@
 import axios from "axios";
 export const getProducts = () => {
   try {
-    return axios.get("http://localhost:5000/api/v1/products/get");
+    return axios.get(
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/get`
+    );
   } catch (error) {
     return Error(error.message);
   }
@@ -9,7 +11,7 @@ export const getProducts = () => {
 export const getSingleProduct = (id) => {
   try {
     return axios.get(
-      `http://localhost:5000/api/v1/products/get/single/product/${id}`
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/get/single/product/${id}`
     );
   } catch (error) {
     return Error(error.message);
@@ -18,7 +20,7 @@ export const getSingleProduct = (id) => {
 export const getAllProductsByHeadTypeFilter = (data) => {
   try {
     return axios.post(
-      `http://localhost:5000/api/v1/products/filter/useType`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/useType`,
       data
     );
   } catch (error) {
@@ -28,7 +30,7 @@ export const getAllProductsByHeadTypeFilter = (data) => {
 export const getAllProductsByCompanyFilter = (data) => {
   try {
     return axios.post(
-      `http://localhost:5000/api/v1/products/filter/company`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/company`,
       data
     );
   } catch (error) {
@@ -39,7 +41,7 @@ export const getAllProductsByCompanyFilter = (data) => {
 export const getAllProductsByColourFilter = (data) => {
   try {
     return axios.post(
-      `http://localhost:5000/api/v1/products/filter/colour`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/colour`,
       data
     );
   } catch (error) {
@@ -49,7 +51,7 @@ export const getAllProductsByColourFilter = (data) => {
 export const getAllProductsByPriceFilter = (data) => {
   try {
     return axios.post(
-      `http://localhost:5000/api/v1/products/filter/price`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/price`,
       data
     );
   } catch (error) {
@@ -60,7 +62,7 @@ export const getAllProductsByPriceFilter = (data) => {
 export const getAllProductsBySortComapnyFilter = (data) => {
   try {
     return axios.post(
-      `http://localhost:5000/api/v1/products/filter/sort/company`,
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/sort/company`,
       data
     );
   } catch (error) {
@@ -71,7 +73,7 @@ export const getAllProductsBySortComapnyFilter = (data) => {
 export const getAllProductsByKeywordFilter = (keyword) => {
   try {
     return axios.get(
-      `http://localhost:5000/api/v1/products/filter/keyword?keyword=${keyword}`
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/keyword?keyword=${keyword}`
     );
   } catch (error) {
     return Error(error.message);
