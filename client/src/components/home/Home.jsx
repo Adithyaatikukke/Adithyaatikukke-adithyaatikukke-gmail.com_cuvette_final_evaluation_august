@@ -13,11 +13,13 @@ import Feedback from "../Feedback/Feedback";
 import {
   fetching,
   getAllProductByHeadTypeFilterAsync,
+  getAllProductsAsync,
   getAllProductsByColourFilterAsync,
   getAllProductsByCompanyFilterAsync,
   getAllProductsByKeywordFilterAsync,
   getAllProductsByPriceFilterAsync,
   getAllProductsBySortComapnyFilterAsync,
+  getAllProductsBySortPriceFilterAsync,
   products,
   productToggle,
 } from "../../Redux/Product/ProductSlice";
@@ -40,6 +42,7 @@ import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import { getAllProductsBySortPriceFilter } from "../../Redux/Product/ProductApi";
 
 const Home = () => {
   const [layout, setLayout] = useState("grid");
@@ -143,6 +146,16 @@ const Home = () => {
           localStorage.removeItem("filterValues");
           localStorage.setItem("filterValues", JSON.stringify(values));
           dispatch(getAllProductsBySortComapnyFilterAsync(values));
+        } else if (val === "Price : Lowest") {
+          values.priceSort = "asc";
+          localStorage.removeItem("filterValues");
+          localStorage.setItem("filterValues", JSON.stringify(values));
+          dispatch(getAllProductsBySortPriceFilterAsync(values));
+        } else if (val === "Price : Highest") {
+          values.priceSort = "desc";
+          localStorage.removeItem("filterValues");
+          localStorage.setItem("filterValues", JSON.stringify(values));
+          dispatch(getAllProductsBySortPriceFilterAsync(values));
         }
       }
     } else {
@@ -434,7 +447,15 @@ const Home = () => {
               </div>
             </div>
             <div className={style.sort}>
-              <select className={style.select_section}>
+              <select
+                onChange={(e) =>
+                  handleFilterProductsByType(
+                    "Sort by : Featured",
+                    e.target.value
+                  )
+                }
+                className={style.select_section}
+              >
                 <option value={sort.name}>{sort.name}</option>
                 <option value={sort.name}>{sort.remove}</option>
 
@@ -457,7 +478,7 @@ const Home = () => {
                       image,
                       price,
                       useType,
-                      description,
+
                       colour,
                       _id,
                     }) => {

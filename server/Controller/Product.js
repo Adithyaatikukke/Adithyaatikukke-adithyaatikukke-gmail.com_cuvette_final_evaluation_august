@@ -461,6 +461,12 @@ export const getAllProductsByPriceSortFilter = async (req, res) => {
         company,
       }).sort({ price: priceSort });
       res.status(200).json({ products });
+    } else if (useType && company && priceSort) {
+      products = await Product.find({
+        useType,
+        company,
+      }).sort({ price: priceSort });
+      res.status(200).json({ products });
     } else if (colour && priceSort) {
       products = await Product.find({
         colour,

@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 .loader {
   min-height: 80dvh;
@@ -216,6 +216,6 @@
     border: 2px solid #2e0052;
   }
   .product_detail_container {
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
   }
 }

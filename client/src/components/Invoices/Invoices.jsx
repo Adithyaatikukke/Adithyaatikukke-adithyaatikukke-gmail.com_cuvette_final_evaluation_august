@@ -80,29 +80,31 @@ const Invoices = () => {
 
         {allProducts?.length > 0 ? (
           <div className={style.invoices_box}>
-            {allProducts?.map(({ paymentMethod, deliveryAddress, id }) => (
-              <div className={style.invoices_sec_info}>
-                <div className={style.flex_box}>
-                  <span>
-                    <FaFileInvoice />
-                  </span>
-                  <div>
-                    <span className={style.user_name}>{name}</span>
-                    <span className={style.delivery_info}>
-                      {deliveryAddress.slice(1, 15)}
+            {allProducts?.map(
+              ({ paymentMethod, title, deliveryAddress, id }) => (
+                <div className={style.invoices_sec_info}>
+                  <div className={style.flex_box}>
+                    <span>
+                      <FaFileInvoice />
                     </span>
+                    <div>
+                      <span className={style.user_name}>{title}</span>
+                      <span className={style.delivery_info}>
+                        {deliveryAddress.slice(1, 15)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className={style.view}>
+                    <button
+                      onClick={() => handleNavigateUser(`/order/detail/${id}`)}
+                    >
+                      View Invoice
+                    </button>
                   </div>
                 </div>
-
-                <div className={style.view}>
-                  <button
-                    onClick={() => handleNavigateUser(`/order/detail/${id}`)}
-                  >
-                    View Invoice
-                  </button>
-                </div>
-              </div>
-            ))}
+              )
+            )}
             <div className={style.delete_all_invoice_container}>
               <button onClick={() => handleShowDeleteModal()}>
                 Delete all invoices

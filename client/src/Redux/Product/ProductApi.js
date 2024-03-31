@@ -70,6 +70,17 @@ export const getAllProductsBySortComapnyFilter = (data) => {
   }
 };
 
+export const getAllProductsBySortPriceFilter = (data) => {
+  try {
+    return axios.post(
+      `${process.env.REACT_APP_BACKEND_API}/api/v1/products/filter/sort/price`,
+      data
+    );
+  } catch (error) {
+    return Error(error.message);
+  }
+};
+
 export const getAllProductsByKeywordFilter = (keyword) => {
   try {
     return axios.get(

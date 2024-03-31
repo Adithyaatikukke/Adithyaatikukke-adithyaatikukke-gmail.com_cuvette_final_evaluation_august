@@ -8,6 +8,7 @@ import {
   getAllProductsByKeywordFilter,
   getAllProductsByPriceFilter,
   getAllProductsBySortComapnyFilter,
+  getAllProductsBySortPriceFilter,
   getProducts,
   getSingleProduct,
 } from "./ProductApi";
@@ -81,6 +82,13 @@ export const getAllProductsByKeywordFilterAsync = createAsyncThunk(
   "product/filter/keyword",
   async (keyword) => {
     const response = await getAllProductsByKeywordFilter(keyword);
+    return response.data;
+  }
+);
+export const getAllProductsBySortPriceFilterAsync = createAsyncThunk(
+  "product/filter/sort/price",
+  async (keyword) => {
+    const response = await getAllProductsBySortPriceFilter(keyword);
     return response.data;
   }
 );
@@ -218,7 +226,27 @@ const productSlice = createSlice({
         state.fetching = false;
         state.error = action.payload;
         state.productToggle = state.productToggle ? false : true;
-      });
+      })
+      .addCase(getAllProductsBySortPriceFilterAsync.pending, (state) => {
+        state.fetching = true;
+      })
+      .addCase(
+        getAllProductsBySortPriceFilterAsync.fulfilled,
+        (state, action) => {
+          const { products } = action.payload;
+          state.fetching = false;
+          state.products = products;
+          state.productToggle = state.productToggle ? false : true;
+        }
+      )
+      .addCase(
+        getAllProductsBySortPriceFilterAsync.rejected,
+        (state, action) => {
+          state.fetching = false;
+          state.error = action.payload;
+          state.productToggle = state.productToggle ? false : true;
+        }
+      );
   },
 });
 

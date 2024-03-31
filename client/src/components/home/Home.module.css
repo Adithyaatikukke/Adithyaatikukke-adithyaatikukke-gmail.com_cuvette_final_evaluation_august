@@ -209,16 +209,14 @@
 }
 .home_section_down {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2rem;
 
-  justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(6, 200px);
+  justify-content: space-around;
+  align-items: center;
 }
 .product_container {
   width: 200px;
-
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -339,7 +337,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+
   justify-content: center;
 }
 .detail_btn_flex {
@@ -415,22 +413,50 @@
   display: block;
   background-color: #dddddd;
 }
+@media (max-width: 1400px) {
+  .home_section_down {
+    width: 100%;
 
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+  }
+}
+@media (max-width: 1270px) {
+  .home_section_down {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+@media (max-width: 1000px) {
+  .home_section_down {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    justify-content: space-around;
+    align-items: center;
+  }
+}
 @media (max-width: 700px) {
   .user_options {
     display: none;
   }
-  .input > input {
-    width: 95%;
-    border: 1px solid #c8c8c8;
-    border-radius: 1.8rem;
-    height: 2.5rem;
+
+  .input {
+    display: none;
   }
   .home_section_down {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 200px);
-    gap: 0;
+
     column-gap: 0.3rem;
     row-gap: 2rem;
 
@@ -542,7 +568,6 @@
     grid-template-columns: repeat(2, 200px);
     gap: 0;
     column-gap: 0.3rem;
-    row-gap: 2rem;
 
     justify-content: space-evenly;
   }
@@ -600,8 +625,8 @@
     display: grid;
     grid-template-columns: repeat(2, 160px);
 
-    column-gap: 0.2rem;
-    row-gap: 2rem;
+    row-gap: 1rem;
+
     justify-content: space-evenly;
   }
   .img_container .img > img {
