@@ -27,16 +27,6 @@ export const getALLFilters = () => {
         "₹10,000 - ₹20,000",
       ],
     },
-    {
-      name: "Sort by : Featured",
-      remove: "Remove filter",
-      types: [
-        "Price : Lowest",
-        "Price : Highest",
-        "Name : (A-Z)",
-        "Name : (Z-A)",
-      ],
-    },
   ];
 };
 export const getSortByFilter = () => {
