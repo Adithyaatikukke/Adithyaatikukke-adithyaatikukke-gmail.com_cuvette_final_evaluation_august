@@ -60,7 +60,7 @@ const Invoices = () => {
               <span className={style.logo_text}>Musicart</span>
               <span>Home/ Invoices</span>
             </div>
-            <div className={style.view_invoices_logo}>
+            <div onClick={() => handleNavigateUser("/cart")} className={style.view_invoices_logo}>
               <MdShoppingCart size={23} /> View Cart {cart.length}
             </div>
           </div>
