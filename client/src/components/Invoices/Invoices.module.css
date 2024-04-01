@@ -81,6 +81,7 @@
   width: 7rem;
   height: 2rem;
   font-size: 1rem;
+  cursor: pointer;
 }
 .invoices_nav {
   background-color: #2e0052;
