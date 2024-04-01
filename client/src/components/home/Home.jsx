@@ -76,8 +76,12 @@ const Home = () => {
 
   const handleSetSerachInput = (val) => {
     setloader(true);
-    dispatch(getAllProductsByKeywordFilterAsync(val));
-    setShowSearchPlaceHolder(false);
+    if (val) {
+      dispatch(getAllProductsByKeywordFilterAsync(val));
+      setShowSearchPlaceHolder(false);
+    } else {
+      dispatch(getAllProductsAsync());
+    }
     setSearchInput(val);
   };
   const handleNavigateUser = (route) => {
