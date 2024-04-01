@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import style from "./SearchHeader.module.css";
 import { IoSearchOutline } from "react-icons/io5";
-import { getAllProductsByKeywordFilterAsync } from "../../Redux/Product/ProductSlice";
+import {
+  getAllProductsAsync,
+  getAllProductsByKeywordFilterAsync,
+} from "../../Redux/Product/ProductSlice";
 import { useDispatch } from "react-redux";
+
 const SearchHeader = () => {
   const dispatch = useDispatch();
   const [showPlaceHolder, setShowPlaceHolder] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const handleSetInputvalue = (value) => {
-    setInputValue(value);
-    setShowPlaceHolder(false);
+    if (value) {
+      setInputValue(value);
+      setShowPlaceHolder(false);
 
-    dispatch(getAllProductsByKeywordFilterAsync(value));
+      dispatch(getAllProductsByKeywordFilterAsync(value));
+    } else {
+      dispatch(getAllProductsAsync());
+    }
   };
   return (
     <section className={style.search_container}>
