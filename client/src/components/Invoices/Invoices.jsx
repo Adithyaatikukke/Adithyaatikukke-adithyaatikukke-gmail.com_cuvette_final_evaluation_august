@@ -92,9 +92,15 @@ const Invoices = () => {
                     </span>
                     <div>
                       <span className={style.user_name}>{title}</span>
-                      <span className={style.delivery_info}>
-                        {deliveryAddress.slice(1, 15)}
-                      </span>
+                      {deliveryAddress.length > 15 ? (
+                        <span className={style.delivery_info}>
+                          {deliveryAddress.slice(0, 15)}...
+                        </span>
+                      ) : (
+                        <span className={style.delivery_info}>
+                          {deliveryAddress}
+                        </span>
+                      )}
                     </div>
                   </div>
 
