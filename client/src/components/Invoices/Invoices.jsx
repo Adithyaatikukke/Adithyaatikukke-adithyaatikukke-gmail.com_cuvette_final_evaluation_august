@@ -61,7 +61,7 @@ const Invoices = () => {
               <span>Home/ Invoices</span>
             </div>
             <div
-              onClick={() => handleNavigateUser(`/cart`)}
+              onClick={() => handleNavigateUser("/cart")}
               className={style.view_invoices_logo}
             >
               <MdShoppingCart size={23} /> View Cart {cart.length}
